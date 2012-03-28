@@ -75,4 +75,15 @@ chrome.extension.onRequest.addListener(
 
   }
 );
+
+/*
+chrome.bookmarks.onChanged.addListener(function(id, changeInfo) {
+  chrome.tabs.getSelected(null, function(tab) {
+    chrome.tabs.sendRequest(tab.id, {greeting: "hello"}, function(response) {
+      console.log('bookmarks.onChanged', id, changeInfo);
+    });
+  });
+});
+*/
+
 </script>

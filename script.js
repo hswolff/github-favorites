@@ -46,3 +46,22 @@ chrome.extension.sendRequest(is_favorite_params, function(response) {
   var parentNode = watch.parentElement;
   parentNode.insertBefore(li, watch);
 });
+
+
+/*
+chrome.extension.onRequest.addListener(
+  function(request, sender, sendResponse) {
+    console.log(sender.tab ?
+                "from a content script:" + sender.tab.url :
+                "from the extension");
+    
+    
+    sendResponse({
+      farewell: "goodbye"
+    });
+    
+    console.log('script.js', request, sender);
+    
+  }
+);
+*/
