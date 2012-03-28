@@ -1,0 +1,78 @@
+<script>
+var favorites_folder = false;
+
+chrome.bookmarks.getTree(function(bookmarks){
+  // Check we have bookmarks
+  if (bookmarks.length === 1) {
+    var other_bookmarks, b;
+    bookmarks = bookmarks[0];
+    if (bookmarks.children) {
+      // Find 'Other Bookmarks' folder
+      for (b in bookmarks.children) {
+        if (bookmarks.children[b].title === 'Other Bookmarks') {
+          other_bookmarks = bookmarks.children[b];
+        }
+      }
+    }
+    // Find 'GitHub Favorites' folder
+    for (b in other_bookmarks.children) {
+      if (other_bookmarks.children[b].title === 'GitHub Favorites') {
+        favorites_folder = other_bookmarks.children[b];
+      }
+    }
+    // Create folder if it doesn't exist
+    if (!favorites_folder) {
+      chrome.bookmarks.create({
+        'parentId': other_bookmarks.id,
+        'title': 'GitHub Favorites'
+      }, function(new_bookmark) {
+        favorites_folder = new_bookmark;
+      });
+    }
+  }
+});
+
+
+chrome.extension.onRequest.addListener(
+  function(request, sender, sendResponse) {
+    
+    if (request.query === 'isFavorite') {
+      var is_favorite = false, bookmark = false;
+      // Find if current tab is already favorited
+      for (var b in favorites_folder.children) {
+        if (request.url === favorites_folder.children[b].url) {
+          is_favorite = true;
+          bookmark = favorites_folder.children[b];
+        }
+      }
+      sendResponse({
+        is_favorite: is_favorite,
+        bookmark: bookmark
+      });
+    }
+
+    if (request.query === 'toggle') {
+      // If we have an id we are removing bookmark
+      if (request.id) {
+        chrome.bookmarks.remove(request.id, function() {
+          sendResponse({
+            is_favorite: false
+          });
+        });
+      } else {
+        chrome.bookmarks.create({
+          'parentId': favorites_folder.id,
+          'title': request.title,
+          'url': request.url
+        }, function(bookmark) {
+          sendResponse({
+            is_favorite: true,
+            bookmark: bookmark
+          });
+        });
+      }
+    }
+
+  }
+);
+</script>
