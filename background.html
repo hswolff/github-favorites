@@ -33,21 +33,31 @@ chrome.bookmarks.getTree(function(bookmarks){
 });
 
 
+
 chrome.extension.onRequest.addListener(
   function(request, sender, sendResponse) {
     
     if (request.query === 'isFavorite') {
-      var is_favorite = false, bookmark = false;
       // Find if current tab is already favorited
-      for (var b in favorites_folder.children) {
-        if (request.url === favorites_folder.children[b].url) {
-          is_favorite = true;
-          bookmark = favorites_folder.children[b];
+      chrome.bookmarks.getSubTree('2', function(bookmarks){
+        var is_favorite = false, bookmark = false;
+        var children = bookmarks[0].children;
+        var favorites_folder;
+        for (var b in children) {
+          if (children[b].title === 'GitHub Favorites') {
+            favorites_folder = children[b];
+          }
         }
-      }
-      sendResponse({
-        is_favorite: is_favorite,
-        bookmark: bookmark
+        for (var b in favorites_folder.children) {
+          if (request.url === favorites_folder.children[b].url) {
+            is_favorite = true;
+            bookmark = favorites_folder.children[b];
+          }
+        }
+        sendResponse({
+          is_favorite: is_favorite,
+          bookmark: bookmark
+        });
       });
     }
 
