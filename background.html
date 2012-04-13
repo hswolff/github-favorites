@@ -7,12 +7,7 @@ chrome.bookmarks.getTree(function(bookmarks){
     var other_bookmarks, b;
     bookmarks = bookmarks[0];
     if (bookmarks.children) {
-      // Find 'Other Bookmarks' folder
-      for (b in bookmarks.children) {
-        if (bookmarks.children[b].title === 'Other Bookmarks') {
-          other_bookmarks = bookmarks.children[b];
-        }
-      }
+    	other_bookmarks = bookmarks.children[1];
     }
     // Find 'GitHub Favorites' folder
     for (b in other_bookmarks.children) {
