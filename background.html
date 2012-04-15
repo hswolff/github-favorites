@@ -1,16 +1,13 @@
 <script>
 var favorites_folder = false;
 
-chrome.bookmarks.getTree(function(bookmarks){
+chrome.bookmarks.getSubTree('2', function(bookmarks){
   // Check we have bookmarks
   if (bookmarks.length === 1) {
     var other_bookmarks, b;
-    bookmarks = bookmarks[0];
-    if (bookmarks.children) {
-      // Get reference to 'Other Bookmarks' folder
-      // Aka the non-bookmarks bar folder
-    	other_bookmarks = bookmarks.children[1];
-    }
+    // Get reference to 'Other Bookmarks' folder
+    // Aka the non-bookmarks bar folder
+    other_bookmarks = bookmarks[0];
     // Find 'GitHub Favorites' folder
     for (b in other_bookmarks.children) {
       if (other_bookmarks.children[b].title === 'GitHub Favorites') {
