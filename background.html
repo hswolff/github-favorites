@@ -33,25 +33,26 @@ chrome.extension.onRequest.addListener(
     
     if (request.query === 'isFavorite') {
       // Find if current tab is already favorited
-      chrome.bookmarks.getSubTree('2', function(bookmarks){
-        var is_favorite = false, bookmark = false;
-        var children = bookmarks[0].children;
-        var favorites_folder;
-        for (var b in children) {
-          if (children[b].title === 'GitHub Favorites') {
-            favorites_folder = children[b];
-          }
+      chrome.bookmarks.search(request.url, function(bookmarks) {
+        var is_favorite = false, bookmark = false, parent_folder_title = false;
+        // If the array's greater than 0 than it's a bookmark
+        if (bookmarks.length) {
+          is_favorite = true;
+          // For now just send back the first result
+          bookmark = bookmarks[0];
         }
-        for (var b in favorites_folder.children) {
-          if (request.url === favorites_folder.children[b].url) {
-            is_favorite = true;
-            bookmark = favorites_folder.children[b];
-          }
+        function isFavoriteResponse(parent_folder_title) {
+          sendResponse({
+            is_favorite: is_favorite,
+            bookmark: bookmark,
+            parent_folder_title: parent_folder_title ? parent_folder_title[0].title : parent_folder_title
+          });
         }
-        sendResponse({
-          is_favorite: is_favorite,
-          bookmark: bookmark
-        });
+        if (is_favorite) {
+          chrome.bookmarks.get(bookmark.parentId, isFavoriteResponse);
+        } else {
+          isFavoriteResponse();
+        }
       });
     }
 
@@ -71,7 +72,8 @@ chrome.extension.onRequest.addListener(
         }, function(bookmark) {
           sendResponse({
             is_favorite: true,
-            bookmark: bookmark
+            bookmark: bookmark,
+            parent_folder_title: favorites_folder.title
           });
         });
       }

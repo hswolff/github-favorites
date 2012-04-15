@@ -21,15 +21,7 @@ li.onclick = function() {
   } else {
     toggle_params.id = false;
   }
-  chrome.extension.sendRequest(toggle_params, function(response) {
-    if (response.is_favorite) {
-      bookmark = response.bookmark;
-      document.getElementsByClassName('favorite')[0].firstChild.firstChild.innerText = 'Favorited!';
-    } else {
-      bookmark = false;
-      document.getElementsByClassName('favorite')[0].firstChild.firstChild.innerText = 'Favorite';
-    }
-  });
+  chrome.extension.sendRequest(toggle_params, updateFavoriteButton);
 };
 
 // Is this page a favorite?
@@ -38,15 +30,28 @@ is_favorite_params.query = 'isFavorite';
 chrome.extension.sendRequest(is_favorite_params, function(response) {
   if (response.is_favorite) {
     text.nodeValue = "Favorited!";
-    bookmark = response.bookmark;
   }
   li.appendChild(a).appendChild(span).appendChild(text);
   // Insert Favorite button into DOM
   var watch = document.getElementsByClassName('watch-button-container')[0];
   var parentNode = watch.parentElement;
   parentNode.insertBefore(li, watch);
+
+  updateFavoriteButton(response);
 });
 
+// Update 'Favorite' button on page depending on response object
+function updateFavoriteButton(response) {
+  if (response.is_favorite) {
+    bookmark = response.bookmark;
+    document.getElementsByClassName('favorite')[0].firstChild.firstChild.innerText = 'Favorited!';
+    document.getElementsByClassName('favorite')[0].firstChild.setAttribute('title', 'Folder: ' + response.parent_folder_title);
+  } else {
+    bookmark = false;
+    document.getElementsByClassName('favorite')[0].firstChild.firstChild.innerText = 'Favorite';
+    document.getElementsByClassName('favorite')[0].firstChild.removeAttribute('title');
+  }
+}
 
 /*
 chrome.extension.onRequest.addListener(
