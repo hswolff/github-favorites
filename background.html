@@ -7,6 +7,8 @@ chrome.bookmarks.getTree(function(bookmarks){
     var other_bookmarks, b;
     bookmarks = bookmarks[0];
     if (bookmarks.children) {
+      // Get reference to 'Other Bookmarks' folder
+      // Aka the non-bookmarks bar folder
     	other_bookmarks = bookmarks.children[1];
     }
     // Find 'GitHub Favorites' folder
