@@ -33,7 +33,7 @@ chrome.extension.sendRequest(is_favorite_params, function(response) {
   }
   li.appendChild(a).appendChild(span).appendChild(text);
   // Insert Favorite button into DOM
-  var watch = document.getElementsByClassName('watch-button-container')[0];
+  var watch = document.getElementsByClassName('subscription')[0];
   var parentNode = watch.parentElement;
   parentNode.insertBefore(li, watch);
 
