@@ -15,6 +15,10 @@ Hope you enjoy =)
 Version Notes
 ====
 
+1.3.1 - Little fixter
+
+ * Fix selector after GitHub notifications update
+
 1.3 - Little tweakster
 
  * Adds (limited) support for international users (thanks @svengiegerich !)
