@@ -1,4 +1,3 @@
-<script>
 var favorites_folder = false;
 
 chrome.bookmarks.getSubTree('2', function(bookmarks){
@@ -91,5 +90,3 @@ chrome.bookmarks.onChanged.addListener(function(id, changeInfo) {
   });
 });
 */
-
-</script>

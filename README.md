@@ -15,6 +15,10 @@ Hope you enjoy =)
 Version Notes
 ====
 
+1.4 - Manifest 2, All Systems Go
+
+ * Updated extension to use [Chrome Manifest Version 2](http://developer.chrome.com/extensions/manifestVersion.html)
+
 1.3.1 - Little fixter
 
  * Fix selector after GitHub notifications update

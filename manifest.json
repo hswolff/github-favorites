@@ -1,12 +1,18 @@
 {
   "name": "GitHub Favorites",
-  "version": "1.3.1",
+  "version": "1.4",
   "description": "Allows you to favorite GitHub repos to save for later instead of adding them to your watch list.",
   "icons": {
     "48": "icon48.png",
     "128": "icon128.png" 
   },
-  "background_page": "background.html",
+  "manifest_version": 2,
+  "web_accessible_resources": [
+    "script.js"
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
   "permissions": [
     "tabs",
     "bookmarks",
@@ -16,7 +22,6 @@
     {
       "matches": ["*://github.com/*/*"],
       "exclude_globs": ["*.com/blog*", "*.com/explore*", "*.com/settings*", "*.com/inbox*", "*.com/repositories*", "*.com/popular*"],
-      "css": ["style.css"],
       "js": ["script.js"]
     }
   ]
