@@ -1,6 +1,6 @@
 GitHub Favorites
 ====
-# This repo is deprecated  
+# This repo is no longer maintained
 
 Do you like GitHub?  Do you like following repos?  Is your GitHub stream noisy from highly active repos?  Then this Chrome Extension is for you!
 
