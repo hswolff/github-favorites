@@ -1,6 +1,7 @@
 GitHub Favorites
 ====
-# This repo is no longer maintained
+
+*Note: this was built before Stars were a native feature of GitHub. As a result of that feature it made this extension no longer necessary. It's no longer actively maintained, but happy to still take PRs.*
 
 Do you like GitHub?  Do you like following repos?  Is your GitHub stream noisy from highly active repos?  Then this Chrome Extension is for you!
 
